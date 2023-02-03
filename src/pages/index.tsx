@@ -9,22 +9,22 @@ import {Button} from "@paljs/ui/Button";
 const apis = [{
     name: 'Operational Data Gateway Service',
     description: 'These following FDA Center For Tobacco Products APIs cover a range of important data and functionality. Some of the APIs are available to the general public, and others are for Center For Tobacco Products  partners only.',
-    link: 'https://www.fda.gov/'
+    link: '/odgsdocs'
 },
     {
         name: 'Enterprise Reporting Service',
         description: 'These following FDA Center For Tobacco Products APIs cover a range of important data and functionality. Some of the APIs are available to the general public, and others are for Center For Tobacco Products  partners only.',
-        link: 'https://www.fda.gov/'
+        link: '/404'
     },
     {
         name: 'Operational Document Service',
         description: 'These following FDA Center For Tobacco Products APIs cover a range of important data and functionality. Some of the APIs are available to the general public, and others are for Center For Tobacco Products  partners only.',
-        link: 'https://www.fda.gov/'
+        link: '/404'
     },
     {
         name: 'Central Data Repository Service',
         description: 'These following FDA Center For Tobacco Products APIs cover a range of important data and functionality. Some of the APIs are available to the general public, and others are for Center For Tobacco Products  partners only.',
-        link: 'https://www.fda.gov/'
+        link: '/404'
     }];
 
 const status: Status[] = ['Info', 'Success', 'Danger', 'Primary', 'Warning', 'Basic', 'Control'];
@@ -36,9 +36,6 @@ export default function Index() {
         <div> { <div style={{textAlign: "center", alignItems: "center"}}>
             <SEO title="Center For Tobacco Products  API Directory" />
             <div style={{textAlign: "left", width: "90%", margin: "1% 12%"}}>
-                <h3 style={{color: "#02bfe7"}}>CTP API Directory</h3>
-                <p style={{color: "#ffffff", lineHeight: "1.5"}}/>
-                <br />
                 <br /> {apis.map(api => { return ( <Row>
                 <Col breakPoint={{xs: 10, md: 10}}>
                     <Card>
@@ -47,7 +44,7 @@ export default function Index() {
                             <br/>
                             <Col key={api.name} style={style} breakPoint={{ xs: true }}>
                                 <Button fullWidth appearance="hero" status={"Basic"}>
-                                    <a style={{'textDecoration': 'none'}} href={api.link} target={"_blank"}>View API Documentation</a>
+                                    <a style={{'textDecoration': 'none'}} href={api.link}>View API Documentation</a>
                                 </Button>
                             </Col>
                         </CardBody>

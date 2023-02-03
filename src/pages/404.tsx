@@ -32,7 +32,7 @@ export default function Error() {
             <h1>404 Page Not Found</h1>
             <small>The page you were looking for doesn&apos;t exist</small>
             <ButtonLink fullWidth appearance="hero" onClick={() => navigate('/')} shape="Rectangle">
-              Take me home
+              view dashboard
             </ButtonLink>
           </ErrorStyle>
         </CardBody>
