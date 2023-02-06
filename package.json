@@ -25,6 +25,7 @@
     "normalize.css": "^8.0.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "react-feather": "^2.0.10",
     "react-helmet": "6.1.0",
     "styled-components": "5.3.1"
   },
