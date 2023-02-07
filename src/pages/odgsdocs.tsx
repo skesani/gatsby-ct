@@ -43,7 +43,7 @@ const Box = styled.div<BoxProps>`
 `;
 
 const apis = [{
-    name: 'ODGS API',
+    name: 'Operational Data Gateway Service API',
     overview: 'Overview',
     gettingstarted: 'Getting Started',
     specificationfile: 'OpenAPI Specification File' ,
@@ -52,7 +52,7 @@ const apis = [{
         'A GraphQL API provides a single endpoint per environment to give user/application access to all the data sources they would need for a particular application. GraphQL provides users the flexibility to define which fields, from which data sources, they would like to request in a query.\n' +
         '\n' +
         'GraphQL requests can be sent via HTTP POST or HTTP GET requests. POST requests sent with the Content-Type header application/GraphQL must have a POST body content as a GraphQL query string. For example, the following is a valid POST body for a query:\n',
-    link: 'https://dmpbc.dev.fda.gov/odgs/graphql',
+    link: 'https://dmpbc.dev.fda.gov/odgs/playground',
     goback: '/',
     pmsrequest: 'query {\n' +
         '    getPMSProductList(stn: "PM0001127") {\n' +
@@ -123,7 +123,7 @@ const apis = [{
         '    }\n' +
         '}\n',
     responseDescription: 'Response is a reply from the web server or web service for the user’s request with the required information. GraphQL responses are in JSON.',
-    filteringdocument:'Filtering documents by parameters'    ,
+    filteringdocument:'Filtering By Parameters'    ,
     responsecodes:'HTTP Response Codes',
     contactus:'Contact Us'
 }];
@@ -139,9 +139,8 @@ export default function odgsdocs() {
                 <Card>
                     <CardBody>
                         <Row>
-                            <Col breakPoint={{ xs: 3, sm: 4, md: 4, lg: 2 }}>
-                                <div>
-                                    <div id="top-div" className="split left">
+                            <Col breakPoint={{ xs: 2, sm: 4, md: 4, lg: 2 }}>
+                                    <div style={{fontSize: "1.3rem", lineHeight: "1.5"}} id="top-div" className="split left">
                                         <div className="centered" >
                                             <a href="#overview">Overview</a>
                                         </div>
@@ -155,7 +154,7 @@ export default function odgsdocs() {
                                             <a href="#response">The Response</a>
                                         </div>
                                         <div>
-                                            <a href="#documentsbyparameters">Filtering/Sorting documents by parameters</a>
+                                            <a href="#documentsbyparameters">Filtering</a>
                                         </div>
                                         <div>
                                             <a href="#responsecodes">HTTP Response Codes</a>
@@ -164,7 +163,6 @@ export default function odgsdocs() {
                                             <a href="#contactus">Contact Us</a>
                                         </div>
                                     </div>
-                                </div>
                             </Col>
                             <Col breakPoint={{ xs: 9, sm: 8, md: 8, lg: 10 }}>
                                 <div style={{textAlign: "center", alignItems: "center"}}>
@@ -173,7 +171,7 @@ export default function odgsdocs() {
                                         <br /> {apis.map((api, index) => { return ( <Row>
                                         <Col breakPoint={{xs: 10, md: 10}} key={index}>
                                             <Card>
-                                                <CardHeader style={{background: "#efefef"}}>{api.name}
+                                                <CardHeader style={{background: "#efefef", fontSize: "30px", color:"#205493"}}>{api.name}
                                                 </CardHeader>
                                                 <CardBody id="overview">
                                                     <h5 style={{color:"#205493"}}>{api.overview}</h5>
@@ -269,20 +267,7 @@ export default function odgsdocs() {
                                                     <br/>
                                                     <pre style={{background: '#FCFCFC', color: "#205493"}}>{api.rapshodyrequest}</pre>
                                                     <br/>
-                                                    <Col key={api.name} style={style} breakPoint={{ md: true }}>
-                                                        <Row>
-                                                            <Col breakPoint={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-                                                                <Button  appearance="hero" status={"Basic"}>
-                                                                    <a style={{'textDecoration': 'none'}} href={api.link} target={"_blank"}>View API Documentation</a>
-                                                                </Button>
-                                                            </Col>
-                                                            <Col breakPoint={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-                                                                <Button style={{ marginLeft: "50%"}} appearance="hero" onClick={() => navigate('/')} shape="Rectangle">
-                                                                    view dashboard
-                                                                </Button>
-                                                            </Col>
-                                                        </Row>
-                                                    </Col>
+                                                    <p><small><a href="#top-div">Back to top</a></small></p>
                                                 </CardBody>
                                                 <CardBody id="response">
                                                     <h5 style={{color:"#205493"}}>The Response</h5>
@@ -304,12 +289,13 @@ export default function odgsdocs() {
                                                                 </Button>
                                                             </Col>
                                                             <Col breakPoint={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-                                                                <Button style={{ marginLeft: "50%"}} appearance="hero" onClick={() => navigate('/')} shape="Rectangle">
+                                                                <Button style={{ marginLeft: "50%", color: "#3366ff"}} appearance="hero" status={"Basic"} onClick={() => navigate('/')} shape="Rectangle">
                                                                     view dashboard
                                                                 </Button>
                                                             </Col>
                                                         </Row>
                                                     </Col>
+                                                    <p><small><a href="#top-div">Back to top</a></small></p>
                                                 </CardBody>
                                                 <CardBody id="documentsbyparameters">
                                                     <h5 style={{color:"#205493"}}>{api.filteringdocument}</h5>

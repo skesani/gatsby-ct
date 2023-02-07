@@ -8,7 +8,7 @@ import {Button} from "@paljs/ui/Button";
 
 const apis = [{
     name: 'Operational Data Gateway Service',
-    description: 'These following FDA Center For Tobacco Products APIs cover a range of important data and functionality. Some of the APIs are available to the general public, and others are for Center For Tobacco Products  partners only.',
+    description: 'The data for ODGS API comes from Product Management Service (PMS) and Rhapsody database.  Product Management Service (PMS) is an internal CTP application that serves as the authoritative source for product information and a consolidated repository of product data. Rhapsody is an internal CTP application that serves as the authoritative source for bundle information and a consolidated repository of bundle data.',
     link: '/odgsdocs'
 },
     {
@@ -44,7 +44,7 @@ export default function Index() {
                             <br/>
                             <Col key={api.name} style={style} breakPoint={{ xs: true }}>
                                 <Button fullWidth appearance="hero" status={"Basic"}>
-                                    <a style={{'textDecoration': 'none'}} href={api.link}>View API Documentation</a>
+                                    <a style={{ textDecoration: 'none'}} href={api.link}>View API Documentation</a>
                                 </Button>
                             </Col>
                         </CardBody>
