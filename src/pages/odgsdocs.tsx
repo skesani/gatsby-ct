@@ -8,7 +8,6 @@ import SEO from "../components/SEO";
 import {navigate} from "gatsby";
 import styled, {css} from "styled-components";
 import {breakpointUp} from "@paljs/ui/breakpoints";
-import Select from "@paljs/ui/Select";
 import {InputGroup} from "@paljs/ui/Input";
 
 
@@ -48,41 +47,83 @@ const apis = [{
     overview: 'Overview',
     gettingstarted: 'Getting Started',
     specificationfile: 'OpenAPI Specification File' ,
-    description: 'These following FDA CTP APIs cover a range of important data and functionality. Some of the APIs are available to the general public, and others are for CTP partners only.',
-    link: 'https://www.fda.gov/',
+    pmsdescription: 'A request is a message from a user’s browser or application sent to the web server for requesting or sending data or performing an action. Request may have input parameters/fields or not, based on the API/URL requirement.\n' +
+        '\n' +
+        'A GraphQL API provides a single endpoint per environment to give user/application access to all the data sources they would need for a particular application. GraphQL provides users the flexibility to define which fields, from which data sources, they would like to request in a query.\n' +
+        '\n' +
+        'GraphQL requests can be sent via HTTP POST or HTTP GET requests. POST requests sent with the Content-Type header application/GraphQL must have a POST body content as a GraphQL query string. For example, the following is a valid POST body for a query:\n',
+    link: 'https://dmpbc.dev.fda.gov/odgs/graphql',
     goback: '/',
-    request: 'query {\n' +
-        '    getRdsProductList(stn: "EX0000611"){\n' +
-        '        prdList{\n' +
-        '                stn\n' +
-        '                type\n' +
-        '                commonName\n' +
-        '                comments\n' +
-        '                submsnProduct{\n' +
-        '                    manufacturer\n' +
-        '            }\n' +
-        '                uniqueProduct{\n' +
-        '                    orgName\n' +
-        '            }\n' +
-        '                predicateList{\n' +
-        '                    commonName\n' +
-        '                    comments\n' +
-        '                    submsnProduct{\n' +
-        '                        manufacturer\n' +
-        '                }\n' +
-        '                uniqueProduct{\n' +
-        '                    orgName\n' +
-        '                }\n' +
-        '            }\n' +
-        '                createdDateTime\n' +
-        '                createdByUser\n' +
-        '                updatedDateTime\n' +
-        '                updatedByUser\n' +
+    pmsrequest: 'query {\n' +
+        '    getPMSProductList(stn: "PM0001127") {\n' +
+        '        prdList {\n' +
+        '        predicateStn\n' +
+        '        stn\n' +
+        '        staticId\n' +
+        '        }\n' +
+        '    links {\n' +
+        '        rel\n' +
+        '        href\n' +
         '        }\n' +
         '    }\n' +
         '}',
-    response: '',
-    filteringdocument:'Filtering/Sorting documents by parameters'    ,
+    rapshodyrequest: 'query {\n' +
+        '    getRhapsodySubmissionDataByStn(stn: "EX0000613") {\n' +
+        '        submissionType\n' +
+        '        dateReceived\n' +
+        '        dateSubmitted\n' +
+        '        organization\n' +
+        '        rhpm\n' +
+        '        dateCreated\n' +
+        '    }\n' +
+        '    links {\n' +
+        '        rel\n' +
+        '        href\n' +
+        '    }\n' +
+        '}\n',
+    pmsresponse: '{\n' +
+        '    "data": {\n' +
+        '        "getPMSProductList": {\n' +
+        '            "prdList": [\n' +
+        '                {\n' +
+        '                    "predicateStn": null,\n' +
+        '                    "stn": "PM0001127",\n' +
+        '                    "staticId": "PM0001127-PD1"\n' +
+        '                },\n' +
+        '                {\n' +
+        '                    "predicateStn": null,\n' +
+        '                    "stn": "PM0001127",\n' +
+        '                    "staticId": "PM0001127-PD2"\n' +
+        '                },\n' +
+        '                {\n' +
+        '                    "predicateStn": null,\n' +
+        '                    "stn": "PM0001127",\n' +
+        '                    "staticId": "PM0001127-PD3"\n' +
+        '                },\n' +
+        '                {\n' +
+        '                    "predicateStn": null,\n' +
+        '                    "stn": "PM0001127",\n' +
+        '                    "staticId": "PM0001127-PD4"\n' +
+        '                },\n' +
+        '            ],\n' +
+        '    }\n' +
+        '}\n',
+    rapshodyresponse: '{\n' +
+        '    "data": {\n' +
+        '        "getRhapsodySubmissionDataByStn": [\n' +
+        '           {\n' +
+        '                "submissionType": "EX",\n' +
+        '                "dateReceived": "2019-07-29",\n' +
+        '                "dateSubmitted": null,\n' +
+        '                "organization": "Swisher International Inc.",\n' +
+        '                "rhpm": "laura.imes@fda.gov",\n' +
+        '                "dateCreated": null\n' +
+        '            }\n' +
+        '        ]\n' +
+        '    }\n' +
+        '}\n',
+    responseDescription: 'Response is a reply from the web server or web service for the user’s request with the required information. GraphQL responses are in JSON.',
+    filteringdocument:'Filtering documents by parameters'    ,
     responsecodes:'HTTP Response Codes',
     contactus:'Contact Us'
 }];
@@ -106,6 +147,9 @@ export default function odgsdocs() {
                                         </div>
                                         <div>
                                             <a href="#gettingstarted">Getting Started</a>
+                                        </div>
+                                        <div>
+                                            <a href="#request">The Request</a>
                                         </div>
                                         <div>
                                             <a href="#response">The Response</a>
@@ -141,9 +185,9 @@ export default function odgsdocs() {
                                                     <p>To begin using this API, you will need to register for an API
                                                         Key. You can sign up for an API key below. After registration,
                                                         you will need to provide this API key in the <code
-                                                            className="language-plaintext highlighter-rouge">x-api-key</code> HTTP
+                                                            className="language-plaintext highlighter-rouge">api-key</code> HTTP
                                                         header with every API request.</p>
-
+                                                    
                                                     <table style={{borderCollapse: "collapse",width: "100%"}}>
                                                         <thead>
                                                         <tr style={{backgroundColor:"#f1f1f1"}}>
@@ -153,7 +197,7 @@ export default function odgsdocs() {
                                                         </thead>
                                                         <tbody style={{display: "table-header-group", verticalAlign: "middle", borderColor: "inherit"}}>
                                                         <tr>
-                                                            <td style={{border: "1px solid #ddd", padding: "8px"}}>x-api-key</td>
+                                                            <td style={{border: "1px solid #ddd", padding: "8px"}}>api-key</td>
                                                             <td style={{border: "1px solid #ddd", padding: "8px"}}>API key from api.data.gov. For sample purposes, you can
                                                                 use <code
                                                                     className="language-plaintext highlighter-rouge">DEMO_KEY</code> as
@@ -177,9 +221,9 @@ export default function odgsdocs() {
                                                                            name="user[first_name]"
                                                                            required={true}/>
                                                                 </Input>
-
+                                                            
                                                             </div>
-
+                                                            
                                                             <div className="form-group last-name-form-group">
                                                                 <label className="form-label" htmlFor="user_last_name">Last
                                                                     Name <abbr title="required"
@@ -191,7 +235,7 @@ export default function odgsdocs() {
                                                                            required={true}/>
                                                                 </Input>
                                                             </div>
-
+                                                            
                                                             <div className="form-group email-form-group">
                                                                 <label className="form-label"
                                                                        htmlFor="user_email">Email <abbr title="required"
@@ -203,25 +247,54 @@ export default function odgsdocs() {
                                                                            required={true}/>
                                                                 </Input>
                                                             </div>
-                                                                <div className="submit">
-                                                                        <ButtonLink appearance="hero" onClick={() => navigate('/')} shape="Rectangle">
-                                                                            Signup
-                                                                        </ButtonLink>
-                                                                </div>
+                                                            <div className="submit">
+                                                                <ButtonLink appearance="hero" onClick={() => navigate('/')} shape="Rectangle">
+                                                                    Signup
+                                                                </ButtonLink>
+                                                            </div>
                                                         </form>
-
+                                                    
                                                     </CardBody>
                                                     <p><small><a href="#top-div">Back to top</a></small></p>
                                                 </CardBody>
+                                                <CardBody id="request">
+                                                    <h5 style={{color:"#205493"}}>The Request</h5>
+                                                    <p>{api.pmsdescription}</p>
+                                                    <br/>
+                                                    <p>To get product data from PMS PostgreSQL database:</p>
+                                                    <br/>
+                                                    <pre style={{background: '#FCFCFC', color: "#205493"}}>{api.pmsrequest}</pre>
+                                                    <br/>
+                                                    <p>To get bundle data from Rhapsody PostgreSQL database:</p>
+                                                    <br/>
+                                                    <pre style={{background: '#FCFCFC', color: "#205493"}}>{api.rapshodyrequest}</pre>
+                                                    <br/>
+                                                    <Col key={api.name} style={style} breakPoint={{ md: true }}>
+                                                        <Row>
+                                                            <Col breakPoint={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+                                                                <Button  appearance="hero" status={"Basic"}>
+                                                                    <a style={{'textDecoration': 'none'}} href={api.link} target={"_blank"}>View API Documentation</a>
+                                                                </Button>
+                                                            </Col>
+                                                            <Col breakPoint={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+                                                                <Button style={{ marginLeft: "50%"}} appearance="hero" onClick={() => navigate('/')} shape="Rectangle">
+                                                                    view dashboard
+                                                                </Button>
+                                                            </Col>
+                                                        </Row>
+                                                    </Col>
+                                                </CardBody>
                                                 <CardBody id="response">
                                                     <h5 style={{color:"#205493"}}>The Response</h5>
-                                                    <p>{api.description}</p>
+                                                    <p>{api.responseDescription}</p>
                                                     <br/>
-                                                    <p><strong><u>Request</u></strong></p>
-                                                    <pre style={{background: 'black', color: "white"}}>{api.request}</pre>
+                                                    <p>Response for the above product request from PMS:</p>
                                                     <br/>
-                                                    <p><strong><u>Response</u></strong></p>
-                                                    <pre style={{background: 'black', color: "white"}}>{api.request}</pre>
+                                                    <pre style={{background: '#FCFCFC', color: "#205493"}}>{api.pmsresponse}</pre>
+                                                    <br/>
+                                                    <p>Response for the above bundle request from Rhapsody:</p>
+                                                    <br/>
+                                                    <pre style={{background: '#FCFCFC', color: "#205493"}}>{api.rapshodyresponse}</pre>
                                                     <br/>
                                                     <Col key={api.name} style={style} breakPoint={{ md: true }}>
                                                         <Row>
@@ -240,16 +313,16 @@ export default function odgsdocs() {
                                                 </CardBody>
                                                 <CardBody id="documentsbyparameters">
                                                     <h5 style={{color:"#205493"}}>{api.filteringdocument}</h5>
-                                                    <p>Documents can be queried by filtering/sorting ?filter[key]=value&amp;sorted</p>
-
-                                                    <p>Ex. /documents?filter[id]=4138</p>
-
-                                                    <p>It will return document id 4138. In this case, it is also equivalent to /documents/4138</p>
+                                                    <p>getRhapsodySubmissionDataByStn(stn:"EX0000613") </p>
+                                                    
+                                                    <p>Ex. stn:"EX0000613"</p>
+                                                    
+                                                    <p>It will return the results with stn:"EX0000613"</p>
                                                 </CardBody>
                                                 <CardBody id="responsecodes">
                                                     <h5 style={{color:"#205493"}}>{api.responsecodes}</h5>
                                                     <p>The API will return one of the following responses:</p>
-
+                                                    
                                                     <table style={{borderCollapse: "collapse",width: "100%"}}>
                                                         <thead>
                                                         <tr style={{backgroundColor:"#f1f1f1"}}>
@@ -276,13 +349,13 @@ export default function odgsdocs() {
                                                         </tr>
                                                         </tbody>
                                                     </table>
-
+                                                    
                                                     <p><small><a href="#top-div">Back to top</a></small></p>
                                                 </CardBody>
                                                 <CardBody id="contactus">
                                                     <h5 style={{color:"#205493"}}>{api.contactus}</h5>
                                                     <p>To suggest a feature or ask for help, please <a href="https://www.fda.gov/about-fda/fda-organization/center-tobacco-products" target={"_blank"}>file an issue in our project repository</a>.</p>
-
+                                                    
                                                     <p><small><a href="#top-div">Back to top</a></small></p>
                                                 </CardBody>
                                                 <CardFooter style={{background: "#2e8540", padding: "0.5rem 0.5rem"}}/>
